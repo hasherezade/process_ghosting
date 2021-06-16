@@ -48,8 +48,7 @@ HANDLE make_section_from_delete_pending_file(wchar_t* filePath, BYTE* payladBuf,
     info.DeleteFile = TRUE;
 
     status = NtSetInformationFile(hDelFile, &status_block, &info, sizeof(info), FileDispositionInformation);
-    if (!NT_SUCCESS(status))
-    {
+    if (!NT_SUCCESS(status)) {
         std::cout << "Setting information failed: " << std::hex << status << "\n";
         return INVALID_HANDLE_VALUE;
     }
