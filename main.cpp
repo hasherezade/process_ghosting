@@ -29,7 +29,7 @@ HANDLE open_file(wchar_t* filePath)
         std::cout << "Failed to open, status: " << std::hex << stat << std::endl;
         return INVALID_HANDLE_VALUE;
     }
-    std::wcout << "[+] Created temp path: " << filePath << "\n";
+    std::wcout << "[+] Created temp file: " << filePath << "\n";
     return file;
 }
 
