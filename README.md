@@ -3,7 +3,7 @@ Process Ghosting
 
 [![Build status](https://ci.appveyor.com/api/projects/status/2nabj2ukws4ees0w?svg=true)](https://ci.appveyor.com/project/hasherezade/process-ghosting)
 
-This is my implementation of the technique presented by Gabriel Landau (Elastic Security)<br/>
+This is my implementation of the technique presented by Gabriel Landau<br/>
 https://www.elastic.co/blog/process-ghosting-a-new-executable-image-tampering-attack
 
 Characteristics:
