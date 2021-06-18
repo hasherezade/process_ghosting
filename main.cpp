@@ -24,7 +24,13 @@ HANDLE open_file(wchar_t* filePath)
 
     IO_STATUS_BLOCK status_block = { 0 };
     HANDLE file = INVALID_HANDLE_VALUE;
-    NTSTATUS stat = NtOpenFile(&file, DELETE | GENERIC_READ | GENERIC_WRITE, &attr, &status_block, FILE_SHARE_READ | FILE_SHARE_WRITE, FILE_SUPERSEDE);
+    NTSTATUS stat = NtOpenFile(&file, 
+        DELETE | SYNCHRONIZE | GENERIC_READ | GENERIC_WRITE,
+        &attr, 
+        &status_block, 
+        FILE_SHARE_READ | FILE_SHARE_WRITE,
+        FILE_SUPERSEDE | FILE_SYNCHRONOUS_IO_NONALERT
+    );
     if (!NT_SUCCESS(stat)) {
         std::cout << "Failed to open, status: " << std::hex << stat << std::endl;
         return INVALID_HANDLE_VALUE;
