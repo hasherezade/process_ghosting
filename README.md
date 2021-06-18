@@ -6,6 +6,8 @@ Process Ghosting
 This is my implementation of the technique presented by [Gabriel Landau](https://twitter.com/GabrielLandau):<br/>
 https://www.elastic.co/blog/process-ghosting-a-new-executable-image-tampering-attack
 
+![](img/proc_ghost.png)
+
 Characteristics:
 -
 
