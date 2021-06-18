@@ -10,7 +10,7 @@ https://www.elastic.co/blog/process-ghosting-a-new-executable-image-tampering-at
 
 Characteristics:
 -
-
++ Memory artifacts as in [Process Doppelgänging](https://github.com/hasherezade/process_doppelganging)
 + Payload mapped as `MEM_IMAGE` (unnamed: not linked to any file)
 + Sections mapped with original access rights (no `RWX`)
 + Payload connected to PEB as the main module
