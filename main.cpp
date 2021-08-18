@@ -178,7 +178,7 @@ bool process_ghost(wchar_t* targetPath, BYTE* payladBuf, DWORD payloadSize)
     );
 
     if (status != STATUS_SUCCESS) {
-        std::cerr << "NtCreateThreadEx failed: " << GetLastError() << std::endl;
+        std::cerr << "NtCreateThreadEx failed: " << std::hex << status << std::endl;
         return false;
     }
 
