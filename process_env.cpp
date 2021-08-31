@@ -146,13 +146,10 @@ bool setup_process_parameters(HANDLE hProcess, PROCESS_BASIC_INFORMATION &pi, LP
         std::cout << "[+] Cannot make a remote copy of parameters: " << GetLastError() << std::endl;
         return false;
     }
+
 #ifdef _DEBUG
     std::cout << "[+] Parameters mapped!" << std::endl;
 #endif
-    PEB peb_copy = { 0 };
-    if (!buffer_remote_peb(hProcess, pi, peb_copy)) {
-        return false;
-    }
 
     if (!set_params_in_peb(remote_params, hProcess, pi.PebBaseAddress)) {
         std::cout << "[+] Cannot update PEB: " << GetLastError() << std::endl;
