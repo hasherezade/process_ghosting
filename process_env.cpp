@@ -8,23 +8,11 @@
 #include <userenv.h>
 #pragma comment(lib, "Userenv.lib")
 
-bool set_params_in_peb(PVOID params_base, HANDLE hProcess, PROCESS_BASIC_INFORMATION &pbi)
+bool set_params_in_peb(PVOID params_base, HANDLE hProcess, PPEB remote_peb)
 {
-    // Get access to the remote PEB:
-    ULONGLONG remote_peb_addr = (ULONGLONG)pbi.PebBaseAddress;
-    if (!remote_peb_addr) {
-        std::cerr << "Failed getting remote PEB address!" << std::endl;
-        return false;
-    }
-    PEB peb_copy = { 0 };
-    ULONGLONG offset = (ULONGLONG)&peb_copy.ProcessParameters - (ULONGLONG)&peb_copy;
-
-    // Calculate offset of the parameters
-    LPVOID remote_img_base = (LPVOID)(remote_peb_addr + offset);
-
     //Write parameters address into PEB:
     SIZE_T written = 0;
-    if (!WriteProcessMemory(hProcess, remote_img_base,
+    if (!WriteProcessMemory(hProcess, &remote_peb->ProcessParameters,
         &params_base, sizeof(PVOID),
         &written))
     {
@@ -166,7 +154,7 @@ bool setup_process_parameters(HANDLE hProcess, PROCESS_BASIC_INFORMATION &pi, LP
         return false;
     }
 
-    if (!set_params_in_peb(remote_params, hProcess, pi)) {
+    if (!set_params_in_peb(remote_params, hProcess, pi.PebBaseAddress)) {
         std::cout << "[+] Cannot update PEB: " << GetLastError() << std::endl;
         return false;
     }
