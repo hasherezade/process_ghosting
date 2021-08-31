@@ -2708,7 +2708,7 @@ typedef struct _PEB
     PRTL_USER_PROCESS_PARAMETERS ProcessParameters;
     PVOID SubSystemData;
     PVOID ProcessHeap;
-    PVOID FastPebLock;
+    PRTL_CRITICAL_SECTION FastPebLock;
     PVOID FastPebLockRoutine;
     PVOID FastPebUnlockRoutine;
     ULONG EnvironmentUpdateCount;
@@ -3451,8 +3451,8 @@ NTAPI
 NtAllocateVirtualMemory (
     IN HANDLE ProcessHandle,
     IN OUT PVOID *BaseAddress,
-    IN ULONG ZeroBits,
-    IN OUT PULONG RegionSize,
+    IN SIZE_T ZeroBits,
+    IN OUT PSIZE_T RegionSize,
     IN ULONG AllocationType,
     IN ULONG Protect
     );
@@ -3464,8 +3464,8 @@ NTAPI
 ZwAllocateVirtualMemory (
     IN HANDLE ProcessHandle,
     IN OUT PVOID *BaseAddress,
-    IN ULONG ZeroBits,
-    IN OUT PULONG RegionSize,
+    IN SIZE_T ZeroBits,
+    IN OUT PSIZE_T RegionSize,
     IN ULONG AllocationType,
     IN ULONG Protect
     );
