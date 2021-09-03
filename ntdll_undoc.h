@@ -4,6 +4,12 @@
 #include "ntddk.h"
 #include "ntdll_types.h"
 
+#define HANDLE_DETACHED_PROCESS   (HANDLE)-1
+#define HANDLE_CREATE_NEW_CONSOLE   (HANDLE)-2
+#define HANDLE_CREATE_NO_WINDOW   (HANDLE)-3
+
+#define NtCurrentPeb() (NtCurrentTeb()->ProcessEnvironmentBlock)
+
 //Functions:
 extern NTSTATUS (NTAPI *NtCreateProcessEx)
 (
