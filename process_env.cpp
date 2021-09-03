@@ -123,6 +123,13 @@ bool setup_process_parameters(HANDLE hProcess, PROCESS_BASIC_INFORMATION &pi, LP
     LPVOID environment;
     CreateEnvironmentBlock(&environment, NULL, TRUE);
 
+    // fetch desktop info from current process:
+    PUNICODE_STRING desktopInfo = nullptr;
+    PPEB myPEB = NtCurrentPeb();
+    if (myPEB && myPEB->ProcessParameters) {
+        desktopInfo = &myPEB->ProcessParameters->DesktopInfo;
+    }
+
     PRTL_USER_PROCESS_PARAMETERS params = nullptr;
     NTSTATUS status = RtlCreateProcessParametersEx(
         &params,
@@ -132,7 +139,7 @@ bool setup_process_parameters(HANDLE hProcess, PROCESS_BASIC_INFORMATION &pi, LP
         (PUNICODE_STRING)&uTargetPath,
         environment,
         (PUNICODE_STRING)&uWindowName,
-        nullptr,
+        desktopInfo,
         nullptr,
         nullptr,
         RTL_USER_PROC_PARAMS_NORMALIZED
@@ -141,6 +148,7 @@ bool setup_process_parameters(HANDLE hProcess, PROCESS_BASIC_INFORMATION &pi, LP
         std::cerr << "RtlCreateProcessParametersEx failed" << std::endl;
         return false;
     }
+
     LPVOID remote_params = write_params_into_process(hProcess, params, PAGE_READWRITE);
     if (!remote_params) {
         std::cout << "[+] Cannot make a remote copy of parameters: " << GetLastError() << std::endl;
